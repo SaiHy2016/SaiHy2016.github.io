@@ -1,0 +1,291 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="hy的博客"><meta name="keywords" content="博客，web，前端"><title>Mongoose学习笔记 | 我的博客</title><link rel="stylesheet" type="text/css" href="//fonts.css.network/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Mongoose学习笔记</h1><a id="logo" href="/.">我的博客</a><p class="description">抱着夏天吃西瓜</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索..."></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">Mongoose学习笔记</h1><div class="post-meta"><span class="date">Jun 14, 2017</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i> Hits</i></i></span><a href="/2017/06/14/Mongoose学习笔记/#comments" class="comment-count">留言</a></div><div class="post-content"><p>初学Node.js接触到MongoDB数据库，阅读资料中推荐的都是Mongoose模块，可以更加方便的对数据库进行操作。在学习时碰到许多基础问题，查阅了许多资料理来理解，此篇文章就是以自己的理解，记录下入门的基础知识，以及归纳下常用的函数以及格式，方便今后查阅。</p>
+<h1 id="引入与连接"><a href="#引入与连接" class="headerlink" title="引入与连接"></a>引入与连接</h1><h2 id="引入模块"><a href="#引入模块" class="headerlink" title="引入模块"></a>引入模块</h2><p>在需要使用的js文件中引入模块。</p>
+<pre><code>var mongoose = require(&apos;mongoose&apos;);
+</code></pre><p>连接数据库</p>
+<pre><code>var db = mongoose.connect(&apos;mongodb://localhost/mongodb&apos;);
+</code></pre><p>URL以mongodb:// + [用户名:密码@] +数据库地址[:端口] + 数据库名。（默认端口27017）<br>需要对连接状况进行判断，可以用以下代码：</p>
+<pre><code>db.connection.on(&quot;error&quot;, function (error) {  
+    console.log(&quot;数据库连接失败：&quot; + error);
+});
+
+db.connection.on(&quot;open&quot;, function () {  
+    console.log(&quot;数据库连接成功&quot;); 
+})
+
+db.connection.on(&apos;disconnected&apos;, function () {    
+    console.log(&apos;数据库连接断开&apos;);  
+})
+</code></pre><h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>最常接触到的有三个概念Schema、Model、Entity。按自己理解<br>Schema是定义数据库的结构。类似创建表时的数据定义，但比创建数据库可以做更多的定义，只是没办法通过Schema对数据库进行更改。<br>Model是将Schema定义的结构赋予表名。但可用此名对数据库进行增删查改。<br>Entity是将Model与具体的数据绑定，可以对具体数据自身进行操作，例如保存数据。</p>
+<h2 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h2><p>Schema用来定义数据库文档结构，数据库有什么字段、字段是什么类型、默认值、主键之类的信息。除了定义结构外，还能定义文档的实例方法，静态模型方法，复合索引，中间件等。详情查看mongoose官方文档。<br>在引入Mongoose模块var mongoose = require(‘mongoose’)的js文件中进行操作。</p>
+<pre><code>var blogSchema = new mongoose.Schema({
+    title:  String,
+    comments: [{ body: String, date: Date }],
+    date: { type: Date, default: Date.now },
+    hidden: Boolean,
+    meta: {
+        votes: Number,
+        favs:  Number
+}
+})
+</code></pre><p>这样即定义了一个名为blogSchema的Schema。</p>
+<p>如需再添加数据，用add方法。</p>
+<pre><code>blogSchema.add( { author: String, body: String} );
+</code></pre><p>资料中介绍，Shema不仅定义了文档的结构和属性，还可以定义文档的插件、实例方法、静态方法、复合索引文档生命周期钩子，具体还需查看官方文档。</p>
+<p><em>Schema.Type</em></p>
+<p>Schema.Type是Mongoose内部定义的数据类型。基本类型有：String、Number、Date、Boolean、Array、Buffer、Mixed、ObjectId。</p>
+<p><em>Mixed</em></p>
+<p>混合数据类型，可以直接定义{}来使用，以下两种形式等价。</p>
+<pre><code>new Schema({mixed: {Schema.Types.Mixed} });
+new Schema({mixed: {} });
+</code></pre><p><em>ObjectId</em></p>
+<p>储存在数据库中的每个数据都会有默认的主键_id，默认存储的是ObjectId。<br>ObjectId是一个12字节的BSON类型字符串。按照字节顺序依次代表：<br>4字节：UNIX时间戳<br>3字节：表示运行MongoDB的机器<br>2字节：表示生成此_id的进程<br>3字节：由一个随机数开始的计数器生成的值</p>
+<h2 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h2><pre><code>var blogModel = mongoose.model(&apos;Blog&apos;, blogSchema);
+</code></pre><p>将名为blogSchema的Schema与Blog名字绑定，即是存入数据库的名字，但存入数据库中的名字是Blogs，会自动添加一个s。<br>这里将Model命名为blogModel，需要对Blog表操作的话，都需要使用变量名blogModel。</p>
+<h2 id="Entity"><a href="#Entity" class="headerlink" title="Entity"></a>Entity</h2><p>可以绑定具体数据对Model实例化。</p>
+<pre><code>var blogEntity = new blogModel({
+    title:  &quot;Mongoose&quot;,
+    author: &quot;L&quot;,
+    body:   &quot;Documents are instances of out model. Creating them and saving to the database is easy&quot;,
+    comments: [{ body: &quot;It&apos;s very cool! Thanks a lot!&quot;, date: &quot;2014.07.28&quot; }],
+    hidden: false,
+    meta: {
+        votes: 100,
+        favs:  99
+    }
+})
+</code></pre><p>这里将名为blogModel的Model实例化。之后我们可以用blogEntity名对数据进行保存并执行回调。</p>
+<pre><code>blogEntity.save(function(err, docs){
+    if(err) console.log(err);
+    console.log(&apos;保存成功：&apos; + docs);
+})
+</code></pre><p>在平常使用SQL语句操作数据库时，取得数据后先组织成SQL语句，然后放入执行语句中执行。这里理解也是类似，取得数据先进行实例化，这一步类似于组织成SQL语句，然后再做具体操作例如上面的Save操作。但由于Node.js是异步操作，所以返回的数据利用回调函数来进行操作。</p>
+<p>知道了以上概念后就可以对数据进行操作了，下面将列出一些常用的资料，并附上相应的例子。</p>
+<h1 id="增查改删-CRUD"><a href="#增查改删-CRUD" class="headerlink" title="增查改删(CRUD)"></a>增查改删(CRUD)</h1><p>所有的参数都是以JSON对象形式传入。</p>
+<h2 id="增-C"><a href="#增-C" class="headerlink" title="增(C)"></a>增(C)</h2><blockquote>
+<p>Model.create(doc(s), [callback])</p>
+</blockquote>
+<pre><code>var doc = ({
+    title:  &quot;Mongoose&quot;,
+    author: &quot;L&quot;,
+    body:   &quot;Documents are instances of out model. Creating them and saving to the database is easy&quot;,
+    comments: [{ body: &quot;It&apos;s very cool! Thanks a lot!&quot;, date: &quot;2014.07.28&quot; }],
+    hidden: false,
+    meta: {
+        votes: 100,
+        favs:  99
+    }
+};
+
+blogModel.create(doc, function(err, docs){
+    if(err) console.log(err);
+    console.log(&apos;保存成功：&apos; + docs);
+});
+</code></pre><blockquote>
+<p>Model#save([options], [options.safe], [options.validateBeforeSave], [fn])</p>
+</blockquote>
+<pre><code>var blogEntity = new blogModel({
+    title:  &quot;Mongoose&quot;,
+    author: &quot;L&quot;,
+    body:   &quot;Documents are instances of out model. Creating them and saving to the database is easy&quot;,
+    comments: [{ body: &quot;It&apos;s very cool! Thanks a lot!&quot;, date: &quot;2014.07.28&quot; }],
+    hidden: false,
+    meta: {
+        votes: 100,
+        favs:  99
+    }
+});
+
+blogEntity.save(function(err, docs){
+    if(err) console.log(err);
+    console.log(&apos;保存成功：&apos; + docs);
+});
+</code></pre><blockquote>
+<p>Model.insertMany(doc(s), [options], [callback])</p>
+</blockquote>
+<p>多条数据插入，将多条数据一次性插入，相对于循环使用create保存会更加快。</p>
+<pre><code>blogModel.insertMany([
+    {title: &quot;mongoose1&quot;, author: &quot;L&quot;}, 
+    {title: &quot;mongoose2&quot;, author: &quot;L&quot;}
+    ], function(err, docs){
+        if(err) console.log(err);
+        console.log(&apos;保存成功：&apos; + docs);
+});
+</code></pre><h2 id="查-R"><a href="#查-R" class="headerlink" title="查(R)"></a>查(R)</h2><blockquote>
+<p>Model.find(conditions, [projection], [options], [callback])</p>
+</blockquote>
+<p>conditions：查询条件；projection：控制返回的字段；options：控制选项；callback：回调函数。</p>
+<pre><code>blogModel.find({title: &quot;Mongoose&quot;, meta.votes: 100}, {title: 1, author: 1, body: 1}, function(err, docs){
+    if(err) console.log(err);
+    console.log(&apos;查询结果：&apos; + docs);
+})
+</code></pre><p>查询“title”标题为“Mongoose”，并且“meta”中“votes”字段值为“100”的记录，返回仅返回“title”、“author”、“body”三个字段的数据。</p>
+<blockquote>
+<p>Model.findOne([conditions], [projection], [options], [callback])</p>
+</blockquote>
+<p>conditions：查询条件；projection：控制返回的字段；options：控制选项；callback：回调函数。<br>只返回第一个查询记录。</p>
+<blockquote>
+<p>Model.findById(id, [projection], [options], [callback])</p>
+</blockquote>
+<p>id：指定_id的值；projection：控制返回的字段；options：控制选项；callback：回调函数。</p>
+<h2 id="改-U"><a href="#改-U" class="headerlink" title="改(U)"></a>改(U)</h2><blockquote>
+<p>Model.update(conditions, doc, [options], [callback])</p>
+</blockquote>
+<p>conditions：查询条件；doc：需要修改的数据，不能修改主键（_id）；options：控制选项；callback：回调函数，返回的是受影响的行数。<br>options有以下选项：<br>　　safe (boolean)： 默认为true。安全模式。<br>　　upsert (boolean)： 默认为false。如果不存在则创建新记录。<br>　　multi (boolean)： 默认为false。是否更新多个查询记录。<br>　　runValidators： 如果值为true，执行Validation验证。<br>　　setDefaultsOnInsert： 如果upsert选项为true，在新建时插入文档定义的默认值。<br>　　strict (boolean)： 以strict模式进行更新。<br>　　overwrite (boolean)： 默认为false。禁用update-only模式，允许覆盖记录。</p>
+<pre><code>blogModel.update({title: &quot;Mongoose&quot;}, {author: &quot;L&quot;}, {multi: true}, function(err, docs){
+    if(err) console.log(err);
+    console.log(&apos;更改成功：&apos; + docs);
+})
+</code></pre><p>以上代码先查询“title”为“Mongoose”的数据，然后将它的“author”修改为“L”，“multi”为true允许更新多条查询记录。</p>
+<blockquote>
+<p>Model.updateMany(conditions, doc, [options], [callback])</p>
+</blockquote>
+<p>一次更新多条</p>
+<blockquote>
+<p>Model.updateOne(conditions, doc, [options], [callback])</p>
+</blockquote>
+<p>一次更新一条</p>
+<blockquote>
+<p>Model.findByIdAndUpdate(id, [update], [options], [callback])</p>
+</blockquote>
+<p>id：指定_id的值；update：需要修改的数据；options控制选项；callback回调函数。<br>options有以下选项：<br>　　new： bool - 默认为false。返回修改后的数据。<br>　　upsert： bool - 默认为false。如果不存在则创建记录。<br>　　runValidators： 如果值为true，执行Validation验证。<br>　　setDefaultsOnInsert： 如果upsert选项为true，在新建时插入文档定义的默认值。<br>　　sort： 如果有多个查询条件，按顺序进行查询更新。<br>　　select： 设置数据的返回。</p>
+<blockquote>
+<p>Model.findOneAndUpdate([conditions], [update], [options], [callback])</p>
+</blockquote>
+<p>conditions：查询条件；update：需要修改的数据；options控制选项；callback回调函数。<br>options有以下选项：<br>　　new： bool - 默认为false。返回修改后的数据。<br>　　upsert： bool - 默认为false。如果不存在则创建记录。<br>　　fields： {Object|String} - 选择字段。类似.select(fields).findOneAndUpdate()。<br>　　maxTimeMS： 查询用时上限。<br>　　sort： 如果有多个查询条件，按顺序进行查询更新。<br>　　runValidators： 如果值为true，执行Validation验证。<br>　　setDefaultsOnInsert： 如果upsert选项为true，在新建时插入文档定义的默认值。<br>　　passRawResult： 如果为真，将原始结果作为回调函数第三个参数。</p>
+<h2 id="删-D"><a href="#删-D" class="headerlink" title="删(D)"></a>删(D)</h2><blockquote>
+<p>Model.remove(conditions, [callback])</p>
+</blockquote>
+<pre><code>blogModel.remove({author: &quot;L&quot;}, function(err, docs){
+    if(err) console.log(err);
+    console.log(&apos;删除成功：&apos; + docs);
+})
+</code></pre><p>删除“author”值为“L”的记录。</p>
+<blockquote>
+<p>Model.findByIdAndRemove(id, [options], [callback])</p>
+</blockquote>
+<p>id：指定_id的值；update：需要修改的数据；options控制选项；callback回调函数。<br>options有以下选项：<br>　　sort： 如果有多个查询条件，按顺序进行查询更新。<br>　　select： 设置数据的返回。</p>
+<blockquote>
+<p>Model.findOneAndRemove(conditions, [options], [callback])</p>
+</blockquote>
+<p>conditions：查询条件；update：需要修改的数据；options控制选项；callback回调函数。<br>options有以下选项：<br>　　sort： 如果有多个查询条件，按顺序进行查询更新。<br>　　maxTimeMS： 查询用时上限。<br>　　select： 设置数据的返回。</p>
+<h1 id="复杂条件查询"><a href="#复杂条件查询" class="headerlink" title="复杂条件查询"></a>复杂条件查询</h1><p>在之前的查询说明中仅演示了确定值的查询，如果遇到更加复杂的情况就需要使用其他一些方法。<br>详细的文档可以在这儿查找 mongodb查询符。</p>
+<blockquote>
+<p>Query#exec([operation], [callback])</p>
+</blockquote>
+<p>执行查询，回调函数。<br>使用find()、$where之类查询返回的是Mongoose自己封装的Query对象，使用find()可以在函数最后接上回调来获取查询到的数据。<br>使用链式语句时，可以在之后接.exec()执行查询，并指定回调函数。</p>
+<pre><code>blogModel.find({title: &quot;Mongoose&quot;, meta.votes: 100}, {title: 1, author: 1, body: 1}).exec(function(err, docs){
+    if(err) console.log(err);
+    console.log(&apos;查询结果：&apos; + docs);
+})
+</code></pre><p>配合各种查询符可以方便的实现复杂的查询。比如我需要查询“title”中以“Mongoose”开头，并且“meta”中“votes”的值小余100。并且按“meta”中“votes”的值升序排序。</p>
+<pre><code>blogModel.and([
+    { title: { $regex: &quot;Mongoose.+&quot;,&quot;$options&quot;:&quot;i&quot;}},
+    { meta.votes: { $lt: 100}}
+).sort({ meta.votes: 1}
+).exec(function(err, docs){
+    if(err) console.log(err);
+    console.log(&apos;查询结果：&apos; + docs);
+});
+</code></pre><h2 id="比较查询运算符"><a href="#比较查询运算符" class="headerlink" title="比较查询运算符"></a>比较查询运算符</h2><blockquote>
+<p>$equals 等于 ／ $gt 大于 ／ $gte 大于等于 ／ $lt 小余 ／ $lte 小余等于 ／ $ne 不等于 ／ $in 在数组中 ／ $nin 不在数组中</p>
+</blockquote>
+<pre><code>blogModel.find({meta.votes: {$lt: 100}});
+</code></pre><p>查询“meta”中的“votes”字段值小余100的数据。</p>
+<pre><code>blogModel.find({title: {$in: [&apos;Mongoose&apos;, &apos;Mongodb&apos;, &apos;Nodejs&apos;]}});
+</code></pre><p>查询“title”为“Mongoose”或“Mongodb”或“Nodejs”其中之一的数据。</p>
+<h2 id="逻辑查询运算符"><a href="#逻辑查询运算符" class="headerlink" title="逻辑查询运算符"></a>逻辑查询运算符</h2><blockquote>
+<p>$or 或 ／ $and 与 ／ $nor 非</p>
+</blockquote>
+<pre><code>blogModel.find({ $and: [
+    {meta.votes: {$gte: 50}}, 
+    {meta.votes: {$lt: 100}}
+]});
+</code></pre><p>查询“meta”中的“votes”字段值大于等于50到小余100的数据。</p>
+<pre><code>blogModel.find({ $nor: [
+    {meta.votes: 50}, 
+    {meta.votes: 100}
+]});
+</code></pre><p>查询“meta”中的“votes”字段值不等于50和不等于100的数据。</p>
+<p>以上例子也可以写成这样形式，比较清晰，其他类同</p>
+<pre><code>blogModel.and([
+    {meta.votes: {$gte: 50}}, 
+    {meta.votes: {$lt: 100}}
+]);
+
+blogModel.nor([
+    {meta.votes: 50}, 
+    {meta.votes: 100}
+]);
+</code></pre><h2 id="元素查询运算符"><a href="#元素查询运算符" class="headerlink" title="元素查询运算符"></a>元素查询运算符</h2><blockquote>
+<p>$exists　查询的字段值是否存在</p>
+</blockquote>
+<pre><code>blogModel.find({ title: {$exists: true}});
+blogModel.where(&apos;title&apos;).exists(true)；
+</code></pre><p>查询存在“title”字段的数据。</p>
+<h2 id="评估查询运算符"><a href="#评估查询运算符" class="headerlink" title="评估查询运算符"></a>评估查询运算符</h2><blockquote>
+<p>$mod　与数据进行取模运算筛选</p>
+</blockquote>
+<pre><code>blogModel.find({ meta.votes: {$mod: [4, 0]}});
+blogModel.where(&apos;meta.votes&apos;).$mod(4, 0);
+</code></pre><p>查找“meta”中的“votes”字段值与4取模后，值为0的数据。</p>
+<blockquote>
+<p>$regex　使用正则表达式查询数据</p>
+</blockquote>
+<pre><code>blogModel.find({ title: { $regex: &quot;Mongoose.+&quot;,&quot;$options&quot;:&quot;i&quot;}});
+</code></pre><p>搜索以“Mongoose”开头的“title”字段，“options”中的“i”代表不区分大小写。<br>$options参数与其余用法可以查看mongodb文档中 $regex 一节。</p>
+<blockquote>
+<p>$where　支持js表达式查询</p>
+</blockquote>
+<pre><code>blogModel.find({ $where: &apos;this.comments.length === 10 || this.name.length === 5&apos; });
+blogModel.$where(function() { return this.comments.length === 10 || this.name.length === 5; });
+</code></pre><h2 id="数组查询运算符"><a href="#数组查询运算符" class="headerlink" title="数组查询运算符"></a>数组查询运算符</h2><blockquote>
+<p>Query#all([path], val)　　查询数组的本身及超集</p>
+</blockquote>
+<pre><code>blogModel.find( tags: [&apos;nodejs&apos;, &apos;mongoose&apos;]);
+</code></pre><p>查询“tags”的字段值同时包含有[‘nodejs’, ‘mongoose’]的数据。只要值中包含此数组即返回数据，若是只包含数组中的一个则不返回此数据。</p>
+<blockquote>
+<p>Query#elemMatch(path, criteria)　　查询数组的交集</p>
+</blockquote>
+<pre><code>blogModel.find( $elemMatch: { tags: &apos;mongoose&apos;, author: &apos;L&apos;});
+</code></pre><p>查询“tags”为“mongoose”或是“author”为“L”的数据。</p>
+<blockquote>
+<p>Query#size([path], val)　　查询指定大小的数组</p>
+</blockquote>
+<pre><code>blogModel.find( tags: { $size: 2});
+blogModel.where(&apos;tags&apos;).size(2);
+</code></pre><p>查询“tags”数组中包含两个元素的数据。</p>
+<h2 id="其他常用的运算符"><a href="#其他常用的运算符" class="headerlink" title="其他常用的运算符"></a>其他常用的运算符</h2><blockquote>
+<p>Query#limit(val)　　限制查询返回的数量</p>
+</blockquote>
+<pre><code>blogModel.find( tags: &apos;mongoose&apos;).limit(5);
+</code></pre><p>查询“tags”为“mongoose”的数据，只返回前5个查询结果。</p>
+<blockquote>
+<p>Query#skip(val)　　跳过前N个查询结果</p>
+</blockquote>
+<pre><code>blogModel.find( tags: &apos;mongoose&apos;).skip(10).limit(5);
+</code></pre><p>查询“tags”为“mongoose”的数据，跳过前10个查询结果，返回从第11个开始的五个查询结果。做分页时常用到这两个，但数据量过大时就会有性能问题。</p>
+<blockquote>
+<p>Query#sort(arg)　　对结果按某个指定字段进行排序</p>
+</blockquote>
+<p>1、asc为升序，-1、desc为降序。可以对一个字段进行排序，也可以是多个。</p>
+<blockquote>
+<p>blogModel.find( tags: ‘mongoose’).skip(10).limit(5).sort(“{ meta.votes: 1}”);</p>
+</blockquote>
+<p>查询“tags”为“mongoose”的数据，跳过前10个查询结果，返回从第11个开始的五个查询结果。之后按“votes”进行升序排序。</p>
+<blockquote>
+<p>Query#count([criteria], [callback])　　计数</p>
+</blockquote>
+<pre><code>blogModel.count({ title: &apos;mongoose&apos;}, function(err, docs){});
+</code></pre><p>统计“title”为“mongoose”数据的数量</p>
+<blockquote>
+<p>Query#select(arg)　　选择指定字段</p>
+</blockquote>
+<p>在查询中可以选择指定的查询字段，或者排除指定的字段。+为包含，-为排除。</p>
+<blockquote>
+<p>blogModel.select(‘title body’);</p>
+</blockquote>
+<p>只包含“title”、“body”字段。</p>
+<pre><code>blogModel.select(&apos;-title -body&apos;);
+</code></pre><p>排除“title”、“body”字段。</p>
+</div><div class="tags"></div><div class="post-share"><div class="bdsharebuttonbox"><span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span><a href="#" data-cmd="more" class="bds_more"></a><a href="#" data-cmd="mshare" title="分享到一键分享" class="bds_mshare"></a><a href="#" data-cmd="fbook" title="分享到Facebook" class="bds_fbook"></a><a href="#" data-cmd="twi" title="分享到Twitter" class="bds_twi"></a><a href="#" data-cmd="linkedin" title="分享到linkedin" class="bds_linkedin"></a><a href="#" data-cmd="youdao" title="分享到有道云笔记" class="bds_youdao"></a><a href="#" data-cmd="evernotecn" title="分享到印象笔记" class="bds_evernotecn"></a><a href="#" data-cmd="weixin" title="分享到微信" class="bds_weixin"></a><a href="#" data-cmd="qzone" title="分享到QQ空间" class="bds_qzone"></a><a href="#" data-cmd="tsina" title="分享到新浪微博" class="bds_tsina"></a></div></div><div class="post-nav"><a href="/2017/06/13/git远程服务器的搭建/" class="next">git远程服务器的搭建</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#引入与连接"><span class="toc-text">引入与连接</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入模块"><span class="toc-text">引入模块</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Schema"><span class="toc-text">Schema</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Model"><span class="toc-text">Model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Entity"><span class="toc-text">Entity</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#增查改删-CRUD"><span class="toc-text">增查改删(CRUD)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#增-C"><span class="toc-text">增(C)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查-R"><span class="toc-text">查(R)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改-U"><span class="toc-text">改(U)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删-D"><span class="toc-text">删(D)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#复杂条件查询"><span class="toc-text">复杂条件查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#比较查询运算符"><span class="toc-text">比较查询运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逻辑查询运算符"><span class="toc-text">逻辑查询运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素查询运算符"><span class="toc-text">元素查询运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#评估查询运算符"><span class="toc-text">评估查询运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组查询运算符"><span class="toc-text">数组查询运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他常用的运算符"><span class="toc-text">其他常用的运算符</span></a></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/06/14/Mongoose学习笔记/">Mongoose学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/13/git远程服务器的搭建/">git远程服务器的搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/10/ejs模板语法/">ejs模板语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/meta的一些设置/">meta一些设置（未完）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/06/防止网页被iframe嵌套/">防止页面被iframe嵌套</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/省略号动画/">省略号动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/placeholder的支持/">placeholder支持</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/28/移动端touch事件/">移动端touch事件整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/图片预览上传/">图片预览上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/25/markdown语法教程/">markdown语法教程</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/学习/" style="font-size: 15px;">学习</a> <a href="/tags/随笔/" style="font-size: 15px;">随笔</a> <a href="/tags/git/" style="font-size: 15px;">git</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> |  <a href="/atom.xml">订阅</a> |  <a href="/about/">关于</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</p><p><span> Copyright &copy;<a href="/." rel="nofollow">HY.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","weixin","tsina","qzone","linkedin","fbook","twi","print","renren","sqq","evernotecn","bdysc","tqq","tqf","bdxc","kaixin001","tieba","douban","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","h163","copy"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script></body></html>
