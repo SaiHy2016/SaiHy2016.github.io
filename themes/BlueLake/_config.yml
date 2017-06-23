@@ -100,11 +100,11 @@ busuanzi: true ## If you want to use Busuanzi page views please set the value to
 
 # About page
 about:
-  photo_url: https://avatars0.githubusercontent.com/u/23050323?v=3&s=40 ## Your photo e.g. http://obzf7z93c.bkt.clouddn.com/themeauthor.jpg
+  photo_url: http://saihy2016.win/static/img/face.jpg ## Your photo e.g. http://obzf7z93c.bkt.clouddn.com/themeauthor.jpg
   items:
   - label: email
     url: huyuan2016@yeah.net ## Your email with mailto: e.g.  mailto:zhenggchaoo@gmail.com
-    title: 我的邮箱 ## Your email e.g.  zhenggchaoo@gmail.com
+    title: huyuan2016@yeah.net ## Your email e.g.  zhenggchaoo@gmail.com
   - label: github
     url: https://github.com/saihy2016  ## Your github'url e.g.  https://github.com/chaooo
     title: https://github.com/saihy2016 ## Your github'name e.g.  chaooo
