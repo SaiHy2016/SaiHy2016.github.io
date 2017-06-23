@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-16T01:21:23.922Z</updated>
+  <updated>2017-06-23T06:08:05.658Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>代码片段</title>
+    <link href="http://yoursite.com/2017/06/23/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/"/>
+    <id>http://yoursite.com/2017/06/23/代码片段/</id>
+    <published>2017-06-23T05:49:42.000Z</published>
+    <updated>2017-06-23T06:08:05.658Z</updated>
+    
+    <content type="html"><![CDATA[<p>记录一些可能会用到的代码片段</p>
+<h1 id="RAF（requestAnimationFrame）"><a href="#RAF（requestAnimationFrame）" class="headerlink" title="RAF（requestAnimationFrame）"></a>RAF（requestAnimationFrame）</h1><pre><code>//判断是否可以使用requestAnimFrame来替换setTimeout
+window.requestAnimFrame =
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    function(callback) {
+        return window.setTimeout(callback, 1000 / 30);
+    };
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记录一些可能会用到的代码片段&lt;/p&gt;
+&lt;h1 id=&quot;RAF（requestAnimationFrame）&quot;&gt;&lt;a href=&quot;#RAF（requestAnimationFrame）&quot; class=&quot;headerlink&quot; title=&quot;RAF（requestAnimati
+    
+    </summary>
+    
+    
+      <category term="学习" scheme="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>Mongoose学习笔记</title>
@@ -328,7 +357,7 @@ blogModel.where(&apos;tags&apos;).size(2);
     <link href="http://yoursite.com/2017/06/13/git%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%90%AD%E5%BB%BA/"/>
     <id>http://yoursite.com/2017/06/13/git远程服务器的搭建/</id>
     <published>2017-06-13T01:40:24.000Z</published>
-    <updated>2017-06-14T06:01:27.459Z</updated>
+    <updated>2017-06-16T01:21:23.933Z</updated>
     
     <content type="html"><![CDATA[<p>目标：本地使用git push后可以把本地代码提交到vps的git服务器和github上</p>
 <h2 id="在vps设置Git用户并安装Git"><a href="#在vps设置Git用户并安装Git" class="headerlink" title="在vps设置Git用户并安装Git"></a>在vps设置Git用户并安装Git</h2><p>登陆vps，切换到root用户：</p>
@@ -435,7 +464,7 @@ url = git@github.com:xxx/xxxx.git
     <link href="http://yoursite.com/2017/06/10/ejs%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95/"/>
     <id>http://yoursite.com/2017/06/10/ejs模板语法/</id>
     <published>2017-06-10T00:16:16.000Z</published>
-    <updated>2017-06-14T06:01:27.449Z</updated>
+    <updated>2017-06-16T01:21:23.922Z</updated>
     
     <content type="html"><![CDATA[<p>1、EJS是一个简单高效的模板语言，通过数据和模板，可以生成HTML标记文本。可以说EJS是一个JavaScript库，EJS可以同时运行在客户端和服务器端，客户端安装直接引入文件即可，服务器端用npm包安装</p>
 <p>2、EJS的特点：</p>
@@ -502,7 +531,7 @@ url = git@github.com:xxx/xxxx.git
     <link href="http://yoursite.com/2017/06/07/meta%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%BE%E7%BD%AE/"/>
     <id>http://yoursite.com/2017/06/07/meta的一些设置/</id>
     <published>2017-06-07T02:26:26.000Z</published>
-    <updated>2017-06-14T06:01:27.461Z</updated>
+    <updated>2017-06-16T01:21:23.934Z</updated>
     
     <content type="html"><![CDATA[<p>META标签分两大部分：HTTP标题信息(HTTP-EQUIV)和页面描述信息(NAME)。</p>
 <h2 id="name-属性"><a href="#name-属性" class="headerlink" title="name 属性"></a>name 属性</h2> <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">1、<span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"Generator"</span> <span class="attr">contect</span>=<span class="string">""</span>&gt;</span>用以说明生成工具（如Microsoft FrontPage 4.0）等；</div><div class="line"></div><div class="line">2、<span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"KEYWords"</span> <span class="attr">contect</span>=<span class="string">""</span>&gt;</span>向搜索引擎说明你的网页的关键词；</div><div class="line"></div><div class="line">3、<span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"DEscription"</span> <span class="attr">contect</span>=<span class="string">""</span>&gt;</span>告诉搜索引擎你的站点的主要内容；</div><div class="line"></div><div class="line">4、<span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"Author"</span> <span class="attr">contect</span>=<span class="string">"你的姓名"</span>&gt;</span>告诉搜索引擎你的站点的制作的作者；</div><div class="line"></div><div class="line">5、<span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"Robots"</span> <span class="attr">contect</span>= <span class="string">"all|none|index|noindex|follow|nofollow"</span>&gt;</span></div><div class="line"></div><div class="line">　 其中的属性说明如下：</div><div class="line">　 设定为all：文件将被检索，且页面上的链接可以被查询；</div><div class="line">  设定为none：文件将不被检索，且页面上的链接不可以被查询；</div><div class="line">  设定为index：文件将被检索；</div><div class="line">  设定为follow：页面上的链接可以被查询；</div><div class="line">  设定为noindex：文件将不被检索，但页面上的链接可以被查询；</div><div class="line">  设定为nofollow：文件将不被检索，页面上的链接可以被查询。</div></pre></td></tr></table></figure>
@@ -525,7 +554,7 @@ url = git@github.com:xxx/xxxx.git
     <link href="http://yoursite.com/2017/06/06/%E9%98%B2%E6%AD%A2%E7%BD%91%E9%A1%B5%E8%A2%ABiframe%E5%B5%8C%E5%A5%97/"/>
     <id>http://yoursite.com/2017/06/06/防止网页被iframe嵌套/</id>
     <published>2017-06-06T02:40:42.000Z</published>
-    <updated>2017-06-14T06:01:27.462Z</updated>
+    <updated>2017-06-16T01:21:23.935Z</updated>
     
     <content type="html"><![CDATA[<p>自己的网页被别人盗用很不爽吧，以下是几种解方案</p>
 <ol>
@@ -571,7 +600,7 @@ url = git@github.com:xxx/xxxx.git
     <link href="http://yoursite.com/2017/06/05/%E7%9C%81%E7%95%A5%E5%8F%B7%E5%8A%A8%E7%94%BB/"/>
     <id>http://yoursite.com/2017/06/05/省略号动画/</id>
     <published>2017-06-05T02:40:42.000Z</published>
-    <updated>2017-06-14T06:01:27.462Z</updated>
+    <updated>2017-06-16T01:21:23.935Z</updated>
     
     <content type="html"><![CDATA[<p>一些漂亮的等待动画：<a href="http://simbyone.com/demo/30-css-page-preload-animations/" target="_blank" rel="external">点这里</a></p>
 <p>三个点的简单等待的动画效果：</p>
@@ -627,7 +656,7 @@ url = git@github.com:xxx/xxxx.git
     <link href="http://yoursite.com/2017/06/01/placeholder%E7%9A%84%E6%94%AF%E6%8C%81/"/>
     <id>http://yoursite.com/2017/06/01/placeholder的支持/</id>
     <published>2017-06-01T00:16:16.000Z</published>
-    <updated>2017-06-14T06:01:27.461Z</updated>
+    <updated>2017-06-16T01:21:23.934Z</updated>
     
     <content type="html"><![CDATA[<p>IE9及以上不支持placeholder属性，可以通过一下方法模拟：</p>
 <pre><code>if(&apos;placeholder&apos; in document.createElement(&apos;input&apos;)){
@@ -666,7 +695,7 @@ url = git@github.com:xxx/xxxx.git
     <link href="http://yoursite.com/2017/05/28/%E7%A7%BB%E5%8A%A8%E7%AB%AFtouch%E4%BA%8B%E4%BB%B6/"/>
     <id>http://yoursite.com/2017/05/28/移动端touch事件/</id>
     <published>2017-05-28T06:44:44.000Z</published>
-    <updated>2017-06-14T06:01:27.462Z</updated>
+    <updated>2017-06-16T01:21:23.935Z</updated>
     
     <content type="html"><![CDATA[<p>移动端触摸事件</p>
 <ul>
@@ -715,7 +744,7 @@ url = git@github.com:xxx/xxxx.git
     <link href="http://yoursite.com/2017/05/27/%E5%9B%BE%E7%89%87%E9%A2%84%E8%A7%88%E4%B8%8A%E4%BC%A0/"/>
     <id>http://yoursite.com/2017/05/27/图片预览上传/</id>
     <published>2017-05-27T08:36:36.000Z</published>
-    <updated>2017-06-14T06:01:27.461Z</updated>
+    <updated>2017-06-16T01:21:23.935Z</updated>
     
     <content type="html"><![CDATA[<p>图片的上传和预览</p>
 <ul>
@@ -812,7 +841,7 @@ input {
     <link href="http://yoursite.com/2017/05/25/markdown%E8%AF%AD%E6%B3%95%E6%95%99%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/05/25/markdown语法教程/</id>
     <published>2017-05-25T09:43:03.000Z</published>
-    <updated>2017-06-14T06:01:27.460Z</updated>
+    <updated>2017-06-16T01:21:23.934Z</updated>
     
     <content type="html"><![CDATA[<p><a href="http://blog.leanote.com/post/freewalk/Markdown-%E8%AF%AD%E6%B3%95%E6%89%8B%E5%86%8C#title" target="_blank" rel="external">完整版Markdown 语法手册（完整版）</a></p>
 <p>目录<br>[TOC]</p>
@@ -843,7 +872,7 @@ input {
     <link href="http://yoursite.com/2017/05/20/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%A5%BD%E5%95%A6/"/>
     <id>http://yoursite.com/2017/05/20/hexo博客搭好啦/</id>
     <published>2017-05-20T01:40:24.000Z</published>
-    <updated>2017-06-14T06:01:27.460Z</updated>
+    <updated>2017-06-16T01:21:23.933Z</updated>
     
     <content type="html"><![CDATA[<p>折腾了一上午，终于搭好了自己的博客啦，好开心，好兴奋，今天520，我要去陪女票啦，美好的一天，嗯木啊</p>
 ]]></content>
@@ -865,7 +894,7 @@ input {
     <link href="http://yoursite.com/2017/05/18/hello-world/"/>
     <id>http://yoursite.com/2017/05/18/hello-world/</id>
     <published>2017-05-18T02:26:26.000Z</published>
-    <updated>2017-06-14T06:01:27.460Z</updated>
+    <updated>2017-06-16T01:21:23.933Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
