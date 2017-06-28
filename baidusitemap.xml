@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://yoursite.com/2017/06/07/meta%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%BE%E7%BD%AE/</loc>
-    <lastmod>2017-06-28T01:30:07.002Z</lastmod>
+    <lastmod>2017-06-28T06:15:04.983Z</lastmod>
     <data>
         <display>
         <title>meta一些设置（未完）</title>
@@ -37,6 +37,40 @@
     </url>
 
     
+    
+  <url>
+    <loc>http://yoursite.com/2017/05/27/%E5%9B%BE%E7%89%87%E9%A2%84%E8%A7%88%E4%B8%8A%E4%BC%A0/</loc>
+    <lastmod>2017-06-16T01:21:23.935Z</lastmod>
+    <data>
+        <display>
+        <title>图片预览上传</title>
+        <pubTime>2017-05-27T08:36:36.000Z</pubTime>
+        
+        <tag>学习</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/06/05/%E7%9C%81%E7%95%A5%E5%8F%B7%E5%8A%A8%E7%94%BB/</loc>
+    <lastmod>2017-06-16T01:21:23.935Z</lastmod>
+    <data>
+        <display>
+        <title>省略号动画</title>
+        <pubTime>2017-06-05T02:40:42.000Z</pubTime>
+        
+        <tag>学习</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
     
   <url>
     <loc>http://yoursite.com/2017/06/06/%E9%98%B2%E6%AD%A2%E7%BD%91%E9%A1%B5%E8%A2%ABiframe%E5%B5%8C%E5%A5%97/</loc>
@@ -73,29 +107,12 @@
 
     
   <url>
-    <loc>http://yoursite.com/2017/06/05/%E7%9C%81%E7%95%A5%E5%8F%B7%E5%8A%A8%E7%94%BB/</loc>
-    <lastmod>2017-06-16T01:21:23.935Z</lastmod>
+    <loc>http://yoursite.com/2017/06/01/placeholder%E7%9A%84%E6%94%AF%E6%8C%81/</loc>
+    <lastmod>2017-06-16T01:21:23.934Z</lastmod>
     <data>
         <display>
-        <title>省略号动画</title>
-        <pubTime>2017-06-05T02:40:42.000Z</pubTime>
-        
-        <tag>学习</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/05/27/%E5%9B%BE%E7%89%87%E9%A2%84%E8%A7%88%E4%B8%8A%E4%BC%A0/</loc>
-    <lastmod>2017-06-16T01:21:23.935Z</lastmod>
-    <data>
-        <display>
-        <title>图片预览上传</title>
-        <pubTime>2017-05-27T08:36:36.000Z</pubTime>
+        <title>placeholder支持</title>
+        <pubTime>2017-06-01T00:16:16.000Z</pubTime>
         
         <tag>学习</tag>
          
@@ -122,15 +139,30 @@
 
     
   <url>
-    <loc>http://yoursite.com/2017/06/01/placeholder%E7%9A%84%E6%94%AF%E6%8C%81/</loc>
-    <lastmod>2017-06-16T01:21:23.934Z</lastmod>
+    <loc>http://yoursite.com/2017/06/13/git%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%90%AD%E5%BB%BA/</loc>
+    <lastmod>2017-06-16T01:21:23.933Z</lastmod>
     <data>
         <display>
-        <title>placeholder支持</title>
-        <pubTime>2017-06-01T00:16:16.000Z</pubTime>
+        <title>git远程服务器的搭建</title>
+        <pubTime>2017-06-13T01:40:24.000Z</pubTime>
         
-        <tag>学习</tag>
+        <tag>git</tag>
          
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/05/18/hello-world/</loc>
+    <lastmod>2017-06-16T01:21:23.933Z</lastmod>
+    <data>
+        <display>
+        <title>Hello World</title>
+        <pubTime>2017-05-18T02:26:26.000Z</pubTime>
+        
          
            
         </display>
@@ -156,30 +188,13 @@
 
     
   <url>
-    <loc>http://yoursite.com/2017/05/18/hello-world/</loc>
-    <lastmod>2017-06-16T01:21:23.933Z</lastmod>
+    <loc>http://yoursite.com/2017/06/14/Mongoose%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2017-06-16T01:21:23.922Z</lastmod>
     <data>
         <display>
-        <title>Hello World</title>
-        <pubTime>2017-05-18T02:26:26.000Z</pubTime>
+        <title>Mongoose学习笔记</title>
+        <pubTime>2017-06-14T06:27:15.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/06/13/git%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%90%AD%E5%BB%BA/</loc>
-    <lastmod>2017-06-16T01:21:23.933Z</lastmod>
-    <data>
-        <display>
-        <title>git远程服务器的搭建</title>
-        <pubTime>2017-06-13T01:40:24.000Z</pubTime>
-        
-        <tag>git</tag>
-         
          
            
         </display>
@@ -197,21 +212,6 @@
         
         <tag>学习</tag>
          
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/06/14/Mongoose%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2017-06-16T01:21:23.922Z</lastmod>
-    <data>
-        <display>
-        <title>Mongoose学习笔记</title>
-        <pubTime>2017-06-14T06:27:15.000Z</pubTime>
-        
          
            
         </display>
